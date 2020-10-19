@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function createSpan() {
         return document.createElement('span')
     }
-    function createRow(){
+    function createRow() {
         const row = createDiv()
         row.classList.add('list-row')
         return row
@@ -97,12 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     const toc = document.getElementById('toc')
-    if(window.__TREE_DATA.length>0){
-
+    if (window.__TREE_DATA.length > 0) {
         window.__TREE_DATA.forEach(item => {
             toc.appendChild(createNode(item))
         })
-    }else{
+    } else {
         const empty = createRow()
         empty.innerText = '无'
         empty.style.paddingLeft = '8px'
@@ -110,12 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const stage = document.getElementById('stage')
     const welcome = document.getElementById('welcome')
-    const textName = document.getElementById('text-name')
-    textName.addEventListener("click", () => {
-        if (openedFile && openedFile.isFile) {
-            openLink(openedFile.path)
-        }
-    })
     let openedFile = null
     function handleClick(d) {
         openedFile = d
@@ -124,19 +117,21 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.src = d.path
         textName.innerText = '文件：' + d.path
     }
-
-    function addButtonEventListeners() {
-        const btnToggleToc = document.getElementById('btn-toggle-toc')
-        btnToggleToc.addEventListener('click', () => {
-            if (toc.classList.contains('hide')) {
-                toc.classList.remove('hide')
-                btnToggleToc.innerText = '隐藏侧栏'
-            } else {
-                toc.classList.add('hide')
-                btnToggleToc.innerText = '打开侧栏'
-            }
-        })
-    }
-
-    addButtonEventListeners()
+    // addButtonEventListeners
+    const btnToggleToc = document.getElementById('btn-toggle-toc')
+    btnToggleToc.addEventListener('click', () => {
+        if (toc.classList.contains('hide')) {
+            toc.classList.remove('hide')
+            btnToggleToc.innerText = '隐藏侧栏'
+        } else {
+            toc.classList.add('hide')
+            btnToggleToc.innerText = '打开侧栏'
+        }
+    })
+    const textName = document.getElementById('text-name')
+    textName.addEventListener("click", () => {
+        if (openedFile && openedFile.isFile) {
+            openLink(openedFile.path)
+        }
+    })
 })
