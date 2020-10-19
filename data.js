@@ -1,0 +1,2 @@
+'use strict';
+window.__TREE_DATA = [{"name":"test","path":"test","children":[{"name":"index.html","path":"test/index.html","extname":".html","isDir":false,"isFile":true}],"isDir":true,"isFile":false}];

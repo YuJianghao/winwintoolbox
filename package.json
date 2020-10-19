@@ -1,0 +1,16 @@
+{
+  "name": "winwin2011.xin",
+  "version": "1.0.0",
+  "main": "node_scripts/index.js",
+  "repository": "git@github.com:YuJianghao/winwin2011.xin.git",
+  "author": "winwin_2011 <yjh2011@live.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node node_scripts/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "glob": "^7.1.6"
+  }
+}

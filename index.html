@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="workbench">
+        <div id="container">
+            <div id="toc">
+            </div>
+            <div id="welcome" class="bg">
+                <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                    <h1>从左侧选择文件查看</h1>
+                </div>
+            </div>
+            <iframe id="stage" class="hide"></iframe>
+        </div>
+        <div id="toolbar">
+            <div>
+                <!-- Left -->
+                <div class="toolbar-item" id="btn-toggle-toc">隐藏侧栏</div>
+                <div class="toolbar-item" id="text-name">文件：无</div>
+            </div>
+            <div>
+                <!-- Right -->
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./data.js"></script>
+<script src="./index.js"></script>
+
+</html>
