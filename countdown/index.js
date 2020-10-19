@@ -10,6 +10,28 @@ const unit = {
     "ms": "ms",
 }
 
+function requestFullscreen() {
+    const de = document.documentElement;
+    if (de.requestFullscreen) {
+        de.requestFullscreen();
+    } else if (de.mozRequestFullScreen) {
+        de.mozRequestFullScreen();
+    } else if (de.webkitRequestFullScreen) {
+        de.webkitRequestFullScreen();
+    }
+}
+//退出全屏
+function exitFullscreen() {
+    const de = document;
+    if (de.exitFullscreen) {
+        de.exitFullscreen();
+    } else if (de.mozCancelFullScreen) {
+        de.mozCancelFullScreen();
+    } else if (de.webkitCancelFullScreen) {
+        de.webkitCancelFullScreen();
+    }
+}
+
 function fillDigit(str, width) {
     let res = str.toString()
     while (res.length < width) {
@@ -68,10 +90,13 @@ function next(state = '', data = '', input) {
                 break
             }
             // dhd or dhdm or dhds
-            nextData += input
-            if (mask === 'm') {
+            if (mask === 'd') {
+                nextData += input
+            } else if (mask === 'm') {
+                nextData += input
                 nextState = 'dhdm'
             } else if (mask === 's') {
+                nextData += input
                 nextState = 'dhds'
             }
             break
@@ -90,8 +115,10 @@ function next(state = '', data = '', input) {
                 break
             }
             // dhdmd or dhdmds
-            nextData += input
-            if (mask === 's') {
+            if (mask === 'd') {
+                nextData += input
+            } else if (mask === 's') {
+                nextData += input
                 nextState = 'dhdmds'
             }
             break
@@ -111,7 +138,10 @@ function next(state = '', data = '', input) {
             }
             // dmd or dmds
             nextData.s += input
-            if (mask === 's') {
+            if (mask === 'd') {
+                nextData += input
+            } else if (mask === 's') {
+                nextData += input
                 nextState = 'dmds'
             }
             break
@@ -147,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timestamp = 0
     let rawTimestamp = 0
     let timer = null
+    let fullscreen = false
     const interval = 57
     const body = document.body
     const input = document.getElementById('input')
@@ -204,13 +235,30 @@ document.addEventListener('DOMContentLoaded', () => {
         string = ''
         process(string)
     }
+    function toggleFullscreen() {
+        if (fullscreen) {
+            exitFullscreen()
+            fullscreen = false
+        } else {
+            requestFullscreen()
+            fullscreen = true
+        }
+    }
     body.addEventListener('keydown', e => {
         if (e.code === 'KeyR') reset()
         else if (e.code === 'KeyC') clear()
-        else if (e.code === 'Enter' || e.code === 'Space') toggleStart()
+        else if (e.code === 'KeyF') toggleFullscreen()
+        else if (e.code === 'Space') toggleStart()
         else if (Object.keys(code).includes(e.code)) {
             string += code[e.code]
             process(string)
         }
     })
+    document.addEventListener("fullscreenchange", () => {
+        if (document.fullscreenElement) {
+            fullscreen = true;
+        } else {
+            fullscreen = false;
+        }
+    });
 })
