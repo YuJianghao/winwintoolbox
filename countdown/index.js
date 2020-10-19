@@ -199,6 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 time[key].innerText = fillDigit(d[key], 2)
             }
         }
+        let title = ''
+        if (d.h > 0) title += d.h + '小时'
+        if (d.m > 0) title += d.m + '分'
+        if (d.s > 0) title += d.s + '秒'
+        document.title = title || '倒计时'
     }
     function process(str) {
         toggleStart(false)
