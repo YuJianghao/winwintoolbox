@@ -1,0 +1,169 @@
+:root {
+  --bg: #007acc;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+li {
+  display: inline-block;
+  font-size: 1.5em;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+li code {
+  /* display: block; */
+  font-size: 4.5em;
+}
+
+@media screen and (max-width: 810px) {
+  h1 {
+    font-size: xx-large;
+  }
+
+  ul {
+    font-size: 1.5em;
+  }
+
+  li {
+    font-size: 1em;
+    padding: 0.4em;
+  }
+
+  li code {
+    /* display: block; */
+    font-size: 3em;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  h1 {
+    font-size: x-large;
+  }
+
+  ul {
+    font-size: large;
+  }
+
+  li {
+    font-size: 1em;
+    padding: 0.2em;
+  }
+
+  li code {
+    /* display: block; */
+    font-size: 2em;
+  }
+}
+
+/* general styling */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: var(--bg);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  position: relative;
+}
+
+.container {
+  color: #ffffff;
+  margin: 0 auto;
+  padding: 0.5rem;
+  text-align: center;
+  z-index: 2;
+}
+
+.input {
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+}
+
+.input-item {
+  height: 24px;
+  font-size: 20px;
+  line-height: 24px;
+  display: inline-block;
+  padding: 0 3px;
+  color: #eeeeee;
+  margin-left: 10px;
+  position: relative;
+}
+
+.help {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: #eeeeee;
+  opacity: 0.2;
+  transition: all 0.2s;
+}
+
+.help:hover{
+    opacity: 1;
+}
+
+.help .item {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 0 10px;
+  margin-left: 10px;
+  position: relative;
+  margin: 10px 0;
+  transition: all 0.2s;
+}
+
+.help .item code {
+  color: var(--bg);
+  background-color: #eeeeee;
+  padding: 0 5px;
+  border-radius: 3px;
+  margin-right: 10px;
+  transition: all 0.2s;
+}
+
+#input::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #eeeeee;
+  animation: cursor-animation 0.5s ease-in-out infinite;
+}
+
+@keyframes cursor-animation {
+  50% {
+    opacity: 0;
+  }
+}
+
+#bg {
+  background-color: #ffffff33;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
