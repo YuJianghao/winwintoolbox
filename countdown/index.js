@@ -190,7 +190,7 @@ function formatTime(d) {
     return str
 }
 document.addEventListener('DOMContentLoaded', () => {
-    let string = '30s'
+    let string = ''
     let timestamp = 0
     let rawTimestamp = 0
     let timer = null
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body.classList.add('finished')
             notify('时间到！', {
                 body: formatTime(parseTimestamp(rawTimestamp)),
-                icon:'./timer.png',
+                icon: './timer.png',
                 vibrate: true
             })
         }
@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
         input.innerText = data
         return { data, nstate, ndata }
     }
-    process(string)
     function toggleStart(start = true) {
         if (timer || !start) {
             window.clearInterval(timer)
@@ -277,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.code === 'KeyR') reset()
         else if (e.code === 'KeyC') clear()
         else if (e.code === 'KeyF') toggleFullscreen()
-        else if (e.code === 'Space') toggleStart()
+        else if (e.code === 'Space' || e.code === 'Enter') toggleStart()
         else if (Object.keys(code).includes(e.code)) {
             string += code[e.code]
             process(string)
@@ -290,4 +289,5 @@ document.addEventListener('DOMContentLoaded', () => {
             fullscreen = false;
         }
     });
+    process(string)
 })
