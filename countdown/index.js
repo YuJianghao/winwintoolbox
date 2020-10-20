@@ -187,6 +187,7 @@ function formatTime(d) {
     if (d.h > 0) str += d.h + '小时'
     if (d.m > 0) str += d.m + '分'
     if (d.s > 0) str += d.s + '秒'
+    if (d.ms > 0) str += d.ms + '毫秒'
     return str
 }
 document.addEventListener('DOMContentLoaded', () => {
