@@ -190,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     time.ms = document.getElementById('time-ms')
     function setTimestamp(t) {
         timestamp = t > 0 ? t : 0
+        if(!timestamp) body.classList.add('finished')
+        else body.classList.remove('finished')
         bg.style.width = rawTimestamp ? (timestamp / rawTimestamp * 100) + '%' : '100%'
         const d = parseTimestamp(timestamp)
         for (key in time) {
