@@ -1,3 +1,12 @@
+// 通知
+let canNotify = false
+Notification.requestPermission().then(permission => {
+    canNotify = permission === 'granted'
+})
+function notify() {
+    if (canNotify) new Notification(...arguments)
+    else console.warn('Notification permission denied.')
+}
 // 倒计时代码
 const code = {
     "Digit1": "1", "Digit2": "2", "Digit3": "3", "Digit4": "4", "Digit5": "5", "Digit6": "6", "Digit7": "7", "Digit8": "8", "Digit9": "9", "Digit0": "0",
@@ -173,6 +182,13 @@ function parseTimestamp(timestamp) {
     const ms = remain
     return { h, m, s, ms }
 }
+function formatTime(d) {
+    let str = ''
+    if (d.h > 0) str += d.h + '小时'
+    if (d.m > 0) str += d.m + '分'
+    if (d.s > 0) str += d.s + '秒'
+    return str
+}
 document.addEventListener('DOMContentLoaded', () => {
     let string = '30s'
     let timestamp = 0
@@ -191,8 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     time.ms = document.getElementById('time-ms')
     function setTimestamp(t) {
         timestamp = t > 0 ? t : 0
-        if(!timestamp && rawTimestamp) body.classList.add('finished')
-        else body.classList.remove('finished')
+        const finished = !timestamp && rawTimestamp
         bg.style.width = rawTimestamp ? (timestamp / rawTimestamp * 100) + '%' : '100%'
         const d = parseTimestamp(timestamp)
         for (key in time) {
@@ -202,11 +217,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 time[key].innerText = fillDigit(d[key], 2)
             }
         }
-        let title = ''
-        if (d.h > 0) title += d.h + '小时'
-        if (d.m > 0) title += d.m + '分'
-        if (d.s > 0) title += d.s + '秒'
-        document.title = title || '倒计时'
+        let title = formatTime(d) || '倒计时'
+        if (finished) {
+            body.classList.add('finished')
+            notify('时间到！', {
+                body: formatTime(parseTimestamp(rawTimestamp)),
+                icon:'./timer.png',
+                vibrate: true
+            })
+        }
+        else body.classList.remove('finished')
+        document.title = title
     }
     function process(str) {
         toggleStart(false)
