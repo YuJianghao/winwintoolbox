@@ -1,5 +1,6 @@
 import { section, print, note, important } from './printer.js'
 section('数据类型',  () => {
+    important('基础数据类型使用值存储，没有引用')
     section('Symbol 类型', () => {
         section('基础', () => {
             note('用于保证对象属性使用唯一标识，避免属性冲突')
