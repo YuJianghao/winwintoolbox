@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function openLink(href) {
         const a = document.createElement('a')
         a.href = href
-        a.target = '_black'
+        a.target = '_blank'
         a.click()
     }
     function createTitle(data, level = 0) {
