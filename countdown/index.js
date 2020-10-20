@@ -1,3 +1,4 @@
+// 倒计时代码
 const code = {
     "Digit1": "1", "Digit2": "2", "Digit3": "3", "Digit4": "4", "Digit5": "5", "Digit6": "6", "Digit7": "7", "Digit8": "8", "Digit9": "9", "Digit0": "0",
     "KeyH": "h", "KeyM": "m", "KeyS": "s", "end": "end",
@@ -190,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     time.ms = document.getElementById('time-ms')
     function setTimestamp(t) {
         timestamp = t > 0 ? t : 0
-        if(!timestamp) body.classList.add('finished')
+        if(!timestamp && rawTimestamp) body.classList.add('finished')
         else body.classList.remove('finished')
         bg.style.width = rawTimestamp ? (timestamp / rawTimestamp * 100) + '%' : '100%'
         const d = parseTimestamp(timestamp)
