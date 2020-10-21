@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         title.appendChild(icon)
         const name = createSpan()
         name.innerText = data.name
+        name.title = data.name
         name.classList.add('title')
         title.appendChild(name)
         if (data.isDir) {
