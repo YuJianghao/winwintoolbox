@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+pre {
+  width: 100%;
+  height: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+}
+pre {
+  margin: 0;
+  padding: 10px;
+
+  white-space: pre-wrap;
+  word-break: normal;
+
+  font-family: "Cascadia Code PL","Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 20px;
+  color: #cccccc;
+  background-color: #222222;
+}
+pre .blue{
+  color:#0087d7;
+}
+pre .purple{
+  color: #8787ff;
+}
+pre .grey{
+  color: #3a3a3a;
+}
