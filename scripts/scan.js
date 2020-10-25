@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const logger = require('./lib');
+const logger = require('./logger');
 const chalk = require('chalk');
 const ROOT = path.resolve(process.cwd(), '.')
 logger.info('Root:', chalk.blue(ROOT))

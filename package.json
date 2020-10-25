@@ -7,10 +7,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node node_scripts/index.js"
+    "scan": "node ./scripts/scan.js",
+    "add": "node ./scripts/add.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "glob": "^7.1.6"
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "inquirer": "^7.3.3",
+    "rimraf": "^3.0.2"
   }
 }

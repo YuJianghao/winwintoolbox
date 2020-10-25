@@ -8,6 +8,10 @@ class Logger {
     static line(){
         console.log()
     }
+
+    static error(){
+        console.error(chalk.red('[ERROR]'), ...arguments)
+    }
 }
 
 module.exports = Logger
