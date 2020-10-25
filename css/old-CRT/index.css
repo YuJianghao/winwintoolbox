@@ -7,9 +7,6 @@
 * {
   box-sizing: border-box;
 }
-label{
-  user-select: none;
-}
 html,
 body {
   width: 100%;
@@ -19,13 +16,19 @@ body {
   padding: 10px;
   margin: 0;
   background-color: #ccc;
+  display: flex;
+  flex-direction: column;
 }
-body > *{
+label{
+  user-select: none;
   margin-bottom: 10px;
 }
 pre {
+  margin:0;
   min-height: 400px;
   padding: 10px;
+  flex: 1;
+  height: 0;
 
   white-space: pre-wrap;
   word-break: normal;
