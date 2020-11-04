@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color:#222222;
+  color: #dcdcdc;
+}
+.title {
+  padding: 0 20px;
+  margin: 0;
+  height: 35px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  font-family: Consolas, "Courier New", monospace;
+}
+span{
+  display: inline-block;
+}
+span.key {
+  display: inline-block;
+  margin: 0 4px;
+}
+span.key {
+  padding: 0 3px;
+  border-radius: 3px;
+  background-color: #323232;
+  border-bottom: 2px solid #444444;
+}
+#container {
+  overflow: hidden;
+}
