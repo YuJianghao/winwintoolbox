@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Fake Drag</title>
+    <script src="../../lib/vue.2.6.9.js"></script>
+    <script src="../../lib/faker.min.js"></script>
+    <script src="../../lib/lodash.min.js"></script>
+    <script src="./FakeDrag.js"></script>
+    <script src="./SlideTransitionGroup.js"></script>
+    <style>
+      :root {
+        --dark: #2c3e50;
+      }
+      #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: var(--dark);
+      }
+      h2 {
+        font-size: large;
+        background-color: aliceblue;
+        padding: 5px 10px;
+        margin: 8px 0;
+      }
+      .info {
+        font-family: "Consolas", "Courier New", Courier, monospace;
+      }
+      button {
+        margin-right: 8px;
+        padding: 2px 8px;
+      }
+      .hello {
+        display: flex;
+        flex-direction: row;
+      }
+      .hello > div {
+        flex: 1;
+      }
+      .list {
+        padding: 10px;
+        margin: 10px;
+        position: relative;
+        background-color: antiquewhite;
+      }
+      .list-item {
+        padding: 1px;
+      }
+      .list-item {
+        padding: 5px 10px;
+        user-select: none;
+      }
+      .list-item.selected {
+        background-color: #99cfff;
+      }
+      .list-item.ghost {
+        padding: 1px 0;
+      }
+      .list-item.ghost > div {
+        background-color: lightgrey;
+        padding: 5px 10px;
+        height: 20px;
+      }
+      .list-item-move {
+        transition: all ease-in-out 200ms;
+      }
+      .list-item-drag-move {
+        transition: all ease-in-out 50ms;
+      }
+      #drag-float {
+        position: fixed;
+        top: 0;
+        left: 0;
+        user-select: none;
+        pointer-events: none;
+        transition: all linear 10ms;
+        padding: 5px 10px;
+        background-color: lightgrey;
+      }
+      .desc li{
+        margin-bottom: 8px;
+      }
+      .desc code {
+        user-select: none;
+        font-family: "Consolas", "Courier New", Courier, monospace;
+        display: inline-block;
+        margin: 0 4px;
+        padding: 0 3px;
+        border-radius: 3px;
+        background-color: #eeeeee;
+        border-bottom: 2px solid #888888;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>FakeDrag</h1>
+      <div style="border:3px solid tomato;color: tomato;padding: 10px 20px;">Does anyone know why it is so lagging? I used the same solution in another project, but not stuck.</div>
+      <hr>
+      <ul class="desc">
+        <li>Right click to select/unselect</li>
+        <li>Drag to sort</li>
+        <li><code>load</code> to load new data</li>
+        <li>
+          <code>save</code> to save data from list to nameList
+        </li>
+      </ul>
+      <hr>
+      <div class="hello">
+        <div>
+          <slide-transition-group
+            class="list"
+            tag="div"
+            :name="draging ? 'list-item-drag' : 'list-item'"
+          >
+            <div
+              v-for="item in list"
+              :key="item.__ghost ? 'ghost' : item.name"
+              v-fake-drag="{
+              dragstart: (e) => dragstart(e, item),
+              dragover: (e) => dragover(e, item),
+              mousemove: (e) => mousemove(e, item),
+              dragend: (e) => dragend(e, item),
+              dragenter: (e) => dragenter(e, item),
+              dragleave: (e) => dragleave(e, item),
+            }"
+              :class="{ ghost: item.__ghost }"
+            >
+              <div v-if="item.__ghost" class="list-item ghost">
+                <div></div>
+              </div>
+              <div
+                v-else
+                class="list-item"
+                @click="select(item.name)"
+                :class="{ selected: selected.includes(item.name) }"
+              >
+                {{ item.name }}
+              </div>
+            </div>
+          </slide-transition-group>
+          <div
+            id="drag-float"
+            v-if="draging"
+            :style="`top:${drag.y}px;left:${drag.x}px;`"
+          >
+            <div v-if="bak.length > 1">
+              {{ bak[0].name }} and {{ bak.length - 1 }} more
+            </div>
+            <div v-else-if="bak.length > 0">{{ bak[0].name }}</div>
+            <div v-else>Nothing</div>
+          </div>
+        </div>
+        <div
+          style="flex: 0 0 1px; background-color: var(--dark); margin: 0 10px"
+        ></div>
+        <div>
+          <div>
+            <button @click="remove">remove</button>
+            <button @click="add">add</button>
+            <button @click="shuffle">shuffle</button>
+            <button @click="load">load</button>
+            <button @click="save">save</button>
+            <h2>list</h2>
+            {{ list }}
+            <h2>nameList</h2>
+            {{ nameList }}
+            <h2>selected</h2>
+            {{ selected }}
+            <h2>bak</h2>
+            {{ bak }}
+            <h2>ghostIdx</h2>
+            {{ ghostIdx }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    Vue.directive(FakeDrag.name, FakeDrag);
+    const app = new Vue({
+      name: "HelloWorld",
+      components: {
+        SlideTransitionGroup,
+      },
+      data() {
+        return {
+          selected: [],
+          names: [],
+          list: [],
+          bak: [],
+          ghostIdx: void 0,
+          ghostObj: { __ghost: true },
+          delay: 200,
+          draging: false,
+          drag: {
+            x: 0,
+            y: 0,
+          },
+        };
+      },
+      computed: {
+        nameObj() {
+          const o = {};
+          this.names.forEach((name) => {
+            o[name] = { name };
+          });
+          return o;
+        },
+        nameList() {
+          return Object.keys(this.nameObj).map((key) => this.nameObj[key]);
+        },
+      },
+      watch: {
+        names(v) {
+          this.list = v.map((name) => {
+            return { name };
+          });
+        },
+      },
+      mounted() {
+        this.load();
+        this.mousemove = _.throttle(this.mousemove, 10);
+      },
+      methods: {
+        dragstart({ e }) {
+          if (this.selected.length < 1) return;
+          this.bak = this.list.filter((o) => this.selected.includes(o.name));
+          this.bak.forEach((o) => {
+            this.list.splice(this.list.indexOf(o), 1);
+          });
+          this.ghostIdx = this.list.length;
+          this.list.push(this.ghostObj);
+          this.draging = true;
+          this.drag.x = e.clientX;
+          this.drag.y = e.clientY;
+        },
+        dragover() {
+          if (!this.draging) return;
+        },
+        mousemove({ e }) {
+          if (!this.draging) return;
+          this.drag.x = e.clientX;
+          this.drag.y = e.clientY;
+        },
+        dragend() {
+          if (!this.draging) return;
+          this.list.splice(this.ghostIdx, 1);
+          this.bak.map((o) => {
+            this.list.splice(this.ghostIdx, 0, o);
+            this.ghostIdx++;
+          });
+          this.bak = [];
+          this.draging = false;
+          this.ghostIdx = void 0;
+        },
+        dragenter(_, item) {
+          if (!this.draging) return;
+          const idx = this.list.indexOf(item);
+          this.list.splice(this.ghostIdx, 1);
+          this.list.splice(idx, 0, this.ghostObj);
+          this.ghostIdx = idx;
+        },
+        dragleave() {
+          if (!this.draging) return;
+        },
+        select(name) {
+          if (this.selected.includes(name))
+            this.selected.splice(this.selected.indexOf(name), 1);
+          else this.selected.push(name);
+        },
+        randomIndex() {
+          return Math.floor(Math.random() * this.list.length);
+        },
+        remove() {
+          this.list.splice(this.randomIndex(), 1);
+        },
+        add() {
+          this.list.splice(this.randomIndex(), 0, {
+            name: faker.name.findName(),
+          });
+        },
+        shuffle() {
+          this.list = _.shuffle(this.list);
+        },
+        load() {
+          this.names = new Array(10).fill(0).map(() => faker.name.findName());
+        },
+        save() {
+          this.names = this.list.map((o) => o.name);
+        },
+      },
+    });
+    app.$mount("#app");
+  </script>
+</html>
