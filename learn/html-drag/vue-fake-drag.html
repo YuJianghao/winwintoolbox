@@ -286,6 +286,8 @@
           this.list = _.shuffle(this.list);
         },
         load() {
+          this.selected = [];
+          this.bak = [];
           this.names = new Array(10).fill(0).map(() => faker.name.findName());
         },
         save() {
