@@ -5,7 +5,7 @@ const logger = require('./logger');
 const chalk = require('chalk');
 const ROOT = path.resolve(process.cwd(), '.')
 logger.info('Root:', chalk.blue(ROOT))
-const ignore = ['index.html'].concat(fs.readFileSync('.gitignore').toString().split('\n')).filter(item => !!item);
+const ignore = ['template','index.html'].concat(fs.readFileSync('.gitignore').toString().split('\n')).filter(item => !!item);
 const ignored = ignore.map(pattern => {
     return glob.sync(pattern, {
         cwd: ROOT
