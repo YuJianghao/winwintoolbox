@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Canvas</h1>
+    <p>Click and drag to change curve.</p>
+    <canvas id="tutorial" style="border: 1px solid green"> </canvas>
+    <div id="info">
+      <div id="handle">handle</div>
+      <div id="x">x</div>
+      <div id="y">y</div>
+    </div>
+  </body>
+  <script src="index.js"></script>
+  <script>
+    function setInfo(key, value) {
+      const el = document.querySelector("#info #" + key);
+      el.innerText = key + " : " + value;
+    }
+    const canvas = document.getElementById("tutorial");
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+    ctx.strokeStyle = "rgba(0, 0, 200, 0.5)";
+    const info = document.getElementById("info");
+    let handling = false;
+    let x = 180,
+      y = 100;
+    setInfo("handle", handling);
+    setInfo("x", x);
+    setInfo("y", y);
+    let handleSize = 4;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      ctx.fillRect(
+        150 - handleSize / 2,
+        25 - handleSize / 2,
+        handleSize,
+        handleSize
+      );
+      ctx.fillRect(
+        50 - handleSize / 2,
+        75 - handleSize / 2,
+        handleSize,
+        handleSize
+      );
+      ctx.beginPath();
+      ctx.moveTo(150, 25);
+      ctx.quadraticCurveTo(x, y, 50, 75);
+      ctx.stroke();
+      ctx.fillRect(
+        x - handleSize / 2,
+        y - handleSize / 2,
+        handleSize,
+        handleSize
+      );
+      ctx.moveTo(x, y);
+      ctx.fillRect(
+        x - handleSize / 2,
+        y - handleSize / 2,
+        handleSize,
+        handleSize
+      );
+    }
+    canvas.addEventListener("mousedown", (e) => {
+      setInfo("handle", true);
+      handling = true;
+      x = e.clientX - e.target.offsetLeft;
+      y = e.clientY - e.target.offsetTop;
+      setInfo("x", x);
+      setInfo("y", y);
+      draw();
+    });
+    canvas.addEventListener("mouseup", () => {
+      setInfo("handle", false);
+      handling = false;
+    });
+    canvas.addEventListener("mousemove", (e) => {
+      if (!handling) return;
+      x = e.clientX - e.target.offsetLeft;
+      y = e.clientY - e.target.offsetTop;
+      setInfo("x", x);
+      setInfo("y", y);
+      draw();
+    });
+    draw();
+  </script>
+</html>
