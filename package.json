@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "scan": "node ./scripts/scan.js",
-    "add": "node ./scripts/add.js"
+    "s": "node ./scripts/scan.js",
+    "a": "node ./scripts/add.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
