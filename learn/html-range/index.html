@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML range</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <pre id="p1">
+function getRects(startDom, startIndex, endDom, endIndex) {
+  const range = document.createRange();
+  range.setStart(startDom, startIndex);
+  range.setEnd(endDom, endIndex);
+  return Array.from(range.getClientRects());
+}
+const pre1 = document.getElementById("p1").firstChild;
+const span2 = document.getElementById("s2").firstChild;
+const rects = getRects(pre1, 10, span2, 4);
+console.log(rects); // 控制台是有输出的
+      </pre
+  >
+  <span id="s1">123456789</span>
+  <span id="s2">abcdefghi</span>
+  <hr />
+  <h1>如何计算文本长度</h1>
+  <p>注意：如果需要选择文本，需要<b>选中text节点</b>（而不是span或者p）</code></p>
+  <button id="btn1">添加选取</button>
+  <button id="btn2">清除</button>
+  <hr />
+  <pre id="p2"></pre>
+  <div class="ranges"></div>
+</body>
+<script src="index.js"></script>
+</html>

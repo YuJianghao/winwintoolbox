@@ -1,0 +1,11 @@
+body {
+  position: relative;
+  margin: 0;
+}
+pre {
+  margin: 0;
+}
+.ranges {
+  position: absolute;
+  top: 0;
+}
