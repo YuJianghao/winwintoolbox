@@ -27,15 +27,19 @@ body {
 span {
   display: inline-block;
 }
-span.key {
+button {
   display: inline-block;
   margin: 0 4px;
-}
-span.key {
-  padding: 0 3px;
+  outline: none;
+  color: #dcdcdc;
+  padding: 3px 10px;
   border-radius: 3px;
   background-color: #323232;
+  border: none;
   border-bottom: 2px solid #444444;
+}
+button:hover{
+  cursor: pointer;
 }
 #container {
   flex: 1 0 0;
